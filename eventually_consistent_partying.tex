@@ -1,10 +1,9 @@
-\documentclass[9pt]{sigplanconf}
-\usepackage[utf8]{inputenc}
-
-\title{Eventually Consistent Partying}
-\authorinfo{Veit Heller}{}{}
+\documentclass[twocolumn]{article}
 
 \begin{document}
+
+\title{Eventually Consistent Partying}
+\author{Veit Heller}
 
 \maketitle
 
@@ -31,14 +30,57 @@ alcohol saturation of a given actor.
 In this paper, we describe a novel approach to reason about eventual
 consistency as it relates to partying.
 
-\section{Terminology}
+\section{Preliminaries}
 
-- buzz factor related to archetype & bodyweight (citation)
+Our foremost goal for eventual consistency in a party setting is reaching a
+quorum. It is said to be almost impossible to set up a perfectly consistent
+system unless you set up a group of exclusively sober actors. There is no
+consensus on whether a group of sober actors can be classified as a party in
+the literature, as some authors prefer to call those systems “tea parties”.
 
-- archetype
-  - heavyweight: lots of alcohol
-  - dead sober: no alcohol
-  - low and slow: a little
-  - sugar rush: cocktails & longdrinks
+We characterize an actor by their buzz intake behaviour and their buzz
+threshold. If the buzz threshold is reached, we characterize an actor as having
+dropped out and disregard them when checking for a quorum. The buzz threshold
+seems to be correlated to the actor’s gender, age, and bodyweight.
+
+\subsection{Archetypes}
+
+In our research we discovered four primary archetypes of actors at parties in
+relation to attaining the buzz factor. We will describe them in the following.
+
+\paragraph{Serious Business.} Actors in the “Serious Business” class—also known
+as “winos” or “boozehounds”—are characterized by a quick intake of buzz.
+Depending on their buzz threshold, they might drop out early.
+
+\paragraph{Dead Sober.} Actors in the “Dead Sober” class—also known as
+“buzzkills” or “designated drivers”—do not intake buzz. Accordingly, they either
+have to be in the majority to achieve what is known as an \textit{a priori}
+quorum, or be in the minority, in which case they will work against the quorum
+of the other actors.
+
+\paragraph{Low and Slow.} The “Low and Slow” class of actors—also known as
+“normies”—shows a slow, steady intake of buzz. Any spikes in buzz may be
+counteracted by the intake of water or other non-alcoholic substances, though
+the increase of buzz over time is almost inevitable.
+
+\paragraph{Sugar Rush.} Favoring Cocktails and longdrinks, this class of
+actors—also known as “fancypants” or “amateur baristas”—show almost no signs of
+buzz for a period of time—this period is unpredictable and largely based on the
+compounds used when intaking buzz—before a sudden spike of buzz that can easily
+overshoot the buzz threshold.
+
+\bigskip
+
+While this collection of archetypes is helpful in building a vocabulary for
+expressing actor behavior, it should not be taken as canonical or exhaustive.
+Party architecture is an understudied area of systems design, and we expect many
+novel, more accurate categorizations to emerge in the coming years.
+
+\section{Practical Discussion}
+
+Now that we have laid the groundwork to conceptualize the system, we can talk
+
+
+\section{Conclusion}
 
 \end{document}
