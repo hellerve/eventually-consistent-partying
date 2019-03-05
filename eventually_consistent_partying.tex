@@ -130,7 +130,7 @@ When accounting for each actor independently, it is important to adjust \texttt{
 be changed slightly to account for the individual differences between actors
 within the same archetype category. Machine Learning algorithms might be able
 to predict better versions of \texttt{f} for an actor given behavior samples
-during previous parties, though that area has heretoforth been vastly
+during previous parties, though that area has heretofore been vastly
 understudied.
 
 In the following we shall give an overview of functions that seem to best
@@ -159,18 +159,18 @@ always return \texttt{0}.
 
 \paragraph{Low and Slow.} This class of actors are modelled similarly to actors
 of the “Serious Business” archetype, with the caveat that, as the party goes on,
-they might occasionally lower their buzz factor. This can be modelled as a
-pseudo-random process. A base likelihood of \texttt{1/3} can be chosen, meaning
-that once every three units the buzz factor might be reduced rather than
-increased. This process can be made to seem more “lifelike” by introducing
-random or even fandom numbers \cite{fandom}. It is also reasonable to assume
-a slower buzz intake of about half a unit per hour.
+they might occasionally lower their buzz factor. A base likelihood of
+\texttt{1/3} can be chosen, meaning that once every three units the buzz
+factor will be reduced rather than increased. This process can be made to
+seem more “lifelike” by introducing random or even fandom numbers
+\cite{fandom}. It is also reasonable to assume a slower buzz intake of about
+half a unit per hour.
 
 \begin{figure}[H]
 \[ f(t) =
   \begin{cases}
-    0.5       & \quad \text{if } t \text{ is evenly divisible by 3}\\
-    -0.2      & \quad \text{otherwise}
+    -0.2       & \quad \text{if } t \text{ is evenly divisible by 3}\\
+    0.5        & \quad \text{otherwise}
   \end{cases}
 \]
 \caption{\texttt{f(t)} for “Low and Slow”.}
