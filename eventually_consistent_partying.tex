@@ -1,6 +1,22 @@
 \documentclass[twocolumn]{article}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{pgfplots}
 
 \providecommand{\keywords}[1]{\noindent \textbf{\textit{Keywords}} #1}
+\bibliographystyle{unsrt}
+
+\pgfplotsset{
+    legend entry/.initial=,
+    every axis plot post/.code={%
+        \pgfkeysgetvalue{/pgfplots/legend entry}\tempValue
+        \ifx\tempValue\empty
+            \pgfkeysalso{/pgfplots/forget plot}%
+        \else
+            \expandafter\addlegendentry\expandafter{\tempValue}%
+        \fi
+    },
+}
 
 \begin{document}
 
@@ -52,10 +68,10 @@ seems to be correlated to the actor’s gender, age, and bodyweight.
 
 At this stage, it is important to note that there is no standard unit that
 allows us to talk about buzz-related activities. For the purposes of this paper,
-we will assume the standard unit to be “one can of beer (TODO)”. Interested
-parties suggested the authors use the more often used unit of “one can of beer
-(Bud Light)”, but that idea was quickly discarded becuase the authors had doubt
-that a credible party could be based on said unit.
+we will assume the standard unit to be “one can of beer (Fat Tire Amber Ale)”.
+Interested parties suggested the authors use the more well-known unit of “one
+can of beer (Bud Light)”, but that idea was quickly discarded because the
+authors had doubt that a credible party could be based on said unit.
 
 The sole medium of buzz accounted for in this paper is ethanol. While other
 substances seem to be in use for party-related buzzing, describing their
@@ -128,12 +144,18 @@ usually be assumed. When accounting for individual actors, that number might
 change, also in accordance with the buzz factor, since some actors in this class
 seem to drink more or less depending on their current inebriation quotient.
 
-% TODO insert figure
+\begin{figure}[H]
+\[ f(t) = 1 \]
+\caption{\texttt{f(t)} for “Serious Business”.}
+\end{figure}
 
 \paragraph{Dead Sober.} The function that describes this class of actors will
 always return \texttt{0}.
 
-% TODO insert figure
+\begin{figure}[H]
+\[ f(t) = 0 \]
+\caption{\texttt{f(t)} for “Dead Sober”.}
+\end{figure}
 
 \paragraph{Low and Slow.} This class of actors are modelled similarly to actors
 of the “Serious Business” archetype, with the caveat that, as the party goes on,
@@ -141,10 +163,19 @@ they might occasionally lower their buzz factor. This can be modelled as a
 pseudo-random process. A base likelihood of \texttt{1/3} can be chosen, meaning
 that once every three units the buzz factor might be reduced rather than
 increased. This process can be made to seem more “lifelike” by introducing
-random or even fandom numbers (TODO: citation). It is also reasonable to assume
+random or even fandom numbers \cite{fandom}. It is also reasonable to assume
 a slower buzz intake of about half a unit per hour.
 
-% TODO insert figure
+\begin{figure}[H]
+\[ f(t) =
+  \begin{cases}
+    0.5       & \quad \text{if } t \text{ is evenly divisible by 3}\\
+    -0.2      & \quad \text{otherwise}
+  \end{cases}
+\]
+\caption{\texttt{f(t)} for “Low and Slow”.}
+\end{figure}
+
 
 \paragraph{Sugar Rush.} A lot of work on party systems design has been devoted
 to modelling the actors in this class, and for good reason. While the actor
@@ -157,6 +188,16 @@ values before the tipping point, and one for the time values after the tipping
 point, has led to promising results. The tipping point varies, but an average of
 four hours into the party seems to be a reasonable assumption.
 
+\begin{figure}[H]
+\[ f(t) =
+  \begin{cases}
+    0.2       & \quad \text{if} t < 4\\
+    1.5       & \quad \text{if} t \geq 4
+  \end{cases}
+\]
+\caption{\texttt{f(t)} for “Sugar Rush”.}
+\end{figure}
+
 \subsection{Modelling a Party}
 
 To model a party, the current buzz factor of each actor that has not dropped
@@ -167,17 +208,38 @@ more than 1.5 units of measurement between each actor.
 
 \subsubsection{Example}
 
-Let us model a seven hour long party of five people as an example. The attendees
-consist of one designated driver of the “Dead Sober” archetype, three normies in
-the “Low and Slow” category, and one wino who means “Serious Business”. There is
-no actor of the “Sugar Rush” archetype present because the host forgot to buy
-Ginger Ale and limes.
+Let us model an eight hour long party of four people as an example. The
+attendees consist of one designated driver of the “Dead Sober” archetype, two
+normies in the “Low and Slow” category, and one wino who means “Serious
+Business”. There is no actor of the “Sugar Rush” archetype present because the
+host forgot to buy Ginger Ale and limes.
 
 Choosing a reasonable buzz threshold for each actor, using the standard
 functions from above, and graphing the results, we end up with a figure that
-clearly shows that we reach a quorum at the hours TODO.
+clearly shows that we have a quorum at the hours 1-4, after which point the
+buzz factors diverge by more than 1.5 units between the designated driver and
+the normies.
 
-% TODO insert figure
+\begin{figure}[H]
+\begin{tikzpicture}
+ \begin{axis}[axis lines*=left,domain=0:8]
+  \addplot[no marks,thick,color=red, legend entry=Serious Business] {x};
+  \addplot[no marks,thick, color=blue, legend entry=Low and Slow] plot coordinates {
+    (0, 0)
+    (1, 0.5)
+    (2, 1)
+    (3, 0.8)
+    (4, 1.3)
+    (5, 1.8)
+    (6, 1.6)
+    (7, 2.1)
+    (8, 2.6)
+  };
+  \addplot[no marks,thick, legend entry=Dead Sober] {0};
+ \end{axis}
+\end{tikzpicture}
+\caption{A party, graphed.}
+\end{figure}
 
 \section{Conclusion}
 
@@ -185,5 +247,7 @@ Party systems design is a nascent, but promising field. We believe that by
 introducing ideas from the wider world of distributed systems the field can
 develop a better vocabulary and more rigorous design methods which will
 eventually lead to a higher quality of parties.
+
+\bibliography{eventually_consistent_partying}
 
 \end{document}
