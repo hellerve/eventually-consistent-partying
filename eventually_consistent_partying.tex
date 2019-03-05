@@ -18,7 +18,7 @@ inebriation quotient).
 
 \bigskip
 
-\keywords{Party System Design, Buzz Factor}
+\keywords{Party System Design, Buzz Factor, SIGBOVIK}
 
 \section{Introduction}
 
@@ -39,15 +39,28 @@ consistency as it relates to partying.
 \section{Preliminaries}
 
 Our foremost goal for eventual consistency in a party setting is reaching a
-quorum. It is said to be almost impossible to set up a perfectly consistent
-system unless you set up a group of exclusively sober actors. There is no
-consensus on whether a group of sober actors can be classified as a party in
-the literature, as some authors prefer to call those systems “tea parties”.
+quorum of approximate buzz level. It is said to be almost impossible to set up
+a perfectly consistent system unless you set up a group of exclusively sober
+actors. There is no consensus on whether a group of sober actors can be
+classified as a party in the literature, as some authors prefer to call those
+systems “tea parties”.
 
 We characterize an actor by their buzz intake behaviour and their buzz
 threshold. If the buzz threshold is reached, we characterize an actor as having
 dropped out and disregard them when checking for a quorum. The buzz threshold
 seems to be correlated to the actor’s gender, age, and bodyweight.
+
+At this stage, it is important to note that there is no standard unit that
+allows us to talk about buzz-related activities. For the purposes of this paper,
+we will assume the standard unit to be “one can of beer (TODO)”. Interested
+parties suggested the authors use the more often used unit of “one can of beer
+(Bud Light)”, but that idea was quickly discarded becuase the authors had doubt
+that a credible party could be based on said unit.
+
+The sole medium of buzz accounted for in this paper is ethanol. While other
+substances seem to be in use for party-related buzzing, describing their
+respective interrelations would complect the calculations tremendously while
+accounting only for a reasonably small subset of actors.
 
 \subsection{Archetypes}
 
@@ -73,7 +86,8 @@ the increase of buzz over time is almost inevitable.
 actors—also known as “fancypants” or “amateur baristas”—show almost no signs of
 buzz for a period of time—this period is unpredictable and largely based on the
 compounds used when intaking buzz—before a sudden spike of buzz that can easily
-overshoot the buzz threshold.
+overshoot the buzz threshold. That point in time is known as “the tipping point”
+in the literature, and will be referred to as such in the following.
 
 \bigskip
 
@@ -84,9 +98,92 @@ novel, more accurate categorizations to emerge in the coming years.
 
 \section{Practical Discussion}
 
-Now that we have laid the groundwork to conceptualize the system, we can talk
+Now that we have laid the groundwork to conceptualize the system, we will
+develop a vocabulary of basic buzz-related calulations.
 
+\subsection{Calculating the Buzz Factor}
+
+We have found that a reasonable way to calculate the buzz factor is to presume
+that there exists a function \texttt{f} that, given a time \texttt{t}, returns
+the buzz intake at that time. Calculating the total buzz factor at any given
+point in time is then as simple as taking the sum of buzz intakes from
+\texttt{t0}—being the time at which the party started—to \texttt{t1}—being the
+time for which the buzz factor should be calculated.
+
+When accounting for each actor independently, it is important to adjust \texttt{f} based on their archetype. The model of the archetype might need to
+be changed slightly to account for the individual differences between actors
+within the same archetype category. Machine Learning algorithms might be able
+to predict better versions of \texttt{f} for an actor given behavior samples
+during previous parties, though that area has heretoforth been vastly
+understudied.
+
+In the following we shall give an overview of functions that seem to best
+predict actor behavior per archetype. Note that the buzz threshold cannot be
+predicted and needs to be measured or assumed by the architect.
+
+\paragraph{Serious Business.} Actors in this class should best be modelled by a
+function that returns a static value, since their buzz factor is usually
+monotonically increasing. An increase by one unit of measurement per hour can
+usually be assumed. When accounting for individual actors, that number might
+change, also in accordance with the buzz factor, since some actors in this class
+seem to drink more or less depending on their current inebriation quotient.
+
+% TODO insert figure
+
+\paragraph{Dead Sober.} The function that describes this class of actors will
+always return \texttt{0}.
+
+% TODO insert figure
+
+\paragraph{Low and Slow.} This class of actors are modelled similarly to actors
+of the “Serious Business” archetype, with the caveat that, as the party goes on,
+they might occasionally lower their buzz factor. This can be modelled as a
+pseudo-random process. A base likelihood of \texttt{1/3} can be chosen, meaning
+that once every three units the buzz factor might be reduced rather than
+increased. This process can be made to seem more “lifelike” by introducing
+random or even fandom numbers (TODO: citation). It is also reasonable to assume
+a slower buzz intake of about half a unit per hour.
+
+% TODO insert figure
+
+\paragraph{Sugar Rush.} A lot of work on party systems design has been devoted
+to modelling the actors in this class, and for good reason. While the actor
+count of this archetype across the entire population seems to be smaller than
+that of the “Low and Slow” archetype, for instance, all functions modelling
+their buzz intake have been the subject of a high level of scrutiny in the
+party architecture community, since none of them have yet seemed to fit a
+majority of actors. A combination of two positive values, one for the time
+values before the tipping point, and one for the time values after the tipping
+point, has led to promising results. The tipping point varies, but an average of
+four hours into the party seems to be a reasonable assumption.
+
+\subsection{Modelling a Party}
+
+To model a party, the current buzz factor of each actor that has not dropped
+out—i.e. each actor whose buzz factor is below their buzz threshold—must be
+calculated. A quorum of buzz factors is reached when a majority of actors have
+approximately the same buzz factor, where approximate means a distance of not
+more than 1.5 units of measurement between each actor.
+
+\subsubsection{Example}
+
+Let us model a seven hour long party of five people as an example. The attendees
+consist of one designated driver of the “Dead Sober” archetype, three normies in
+the “Low and Slow” category, and one wino who means “Serious Business”. There is
+no actor of the “Sugar Rush” archetype present because the host forgot to buy
+Ginger Ale and limes.
+
+Choosing a reasonable buzz threshold for each actor, using the standard
+functions from above, and graphing the results, we end up with a figure that
+clearly shows that we reach a quorum at the hours TODO.
+
+% TODO insert figure
 
 \section{Conclusion}
+
+Party systems design is a nascent, but promising field. We believe that by
+introducing ideas from the wider world of distributed systems the field can
+develop a better vocabulary and more rigorous design methods which will
+eventually lead to a higher quality of parties.
 
 \end{document}
